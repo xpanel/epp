@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+identExt-1.0.xsd - XML schema for .XX EPP extensions for contact mapping
+
+$Id: identExt-1.0.xsd $
+$Date: 2011-10-04 $
+$LastChangedBy: Lilian Rudenco $
+-->
+<schema targetNamespace="http://www.nic.xx/XXNIC-EPP/identExt-1.0"
+          xmlns:identExt="http://www.nic.xx/XXNIC-EPP/identExt-1.0"
+          xmlns:epp="urn:ietf:params:xml:ns:epp-1.0"
+          xmlns:eppcom="urn:ietf:params:xml:ns:eppcom-1.0"
+          xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"
+          xmlns="http://www.w3.org/2001/XMLSchema"
+          elementFormDefault="qualified">
+
+    <!-- Import IETF schemas. -->
+    <import namespace="urn:ietf:params:xml:ns:eppcom-1.0"  schemaLocation="eppcom-1.0.xsd" />
+    <import namespace="urn:ietf:params:xml:ns:epp-1.0"     schemaLocation="epp-1.0.xsd" />
+    <import namespace="urn:ietf:params:xml:ns:contact-1.0" schemaLocation="contact-1.0.xsd" />
+
+    <annotation>
+      <documentation>
+        Extensible Provisioning Protocol v1.0
+        Extensions for .XX
+      </documentation>
+    </annotation>
+
+    <!-- **************************************************************** -->
+    <!--                 extension to contact:create                      -->
+    <!--                                                                  -->
+    <element name="create" type="identExt:createType" />
+
+    <complexType name="createType">
+      <all>
+        <element name="nin" type="identExt:idenType" minOccurs="0" maxOccurs="1" />
+      </all>
+    </complexType>
+
+    <!-- **************************************************************** -->
+    <!--                 extension to contact:update                      -->
+    <!--                                                                  -->
+    <element name="update" type="identExt:updateType" />
+
+    <complexType name="updateType">
+      <sequence>
+        <element name="nin" type="identExt:idenType" minOccurs="0" maxOccurs="1"/>
+      </sequence>
+    </complexType>
+
+    <!-- **************************************************************** -->
+    <!--                 extension to contact:info                        -->
+    <!--                                                                  -->
+    <element name="infData" type="identExt:infDataType"/>
+
+    <complexType name="infDataType">
+      <all>
+        <element name="nin" type="identExt:idenType" minOccurs="0" />
+      </all>
+    </complexType>
+
+    <!-- **************************************************************** -->
+    <!--               Define the extension element types                 -->
+    <!--                                                                  -->
+
+    <complexType name="idenType">
+      <simpleContent>
+        <extension base="identExt:ninStringType">
+          <attribute name="type" type="identExt:ninType"/>
+        </extension>
+      </simpleContent>
+    </complexType>
+
+    <simpleType name="ninStringType">
+      <restriction base="string">
+        <pattern value="[A-Za-z0-9][A-Za-z0-9#:./-]*[A-Za-z0-9]" />
+        <minLength value="3"/>
+        <maxLength value="20"/>
+      </restriction>
+    </simpleType>
+
+    <simpleType name="ninType">
+      <restriction base="token">
+        <enumeration value="personal"/>
+        <enumeration value="business"/>
+      </restriction>
+    </simpleType>
+
+</schema>

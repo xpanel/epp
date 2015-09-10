@@ -1,0 +1,109 @@
+EPP Server 1.0.12 Documentation
+
+  * Requirements
+  * Introduction
+  * Installation
+  * Configuration
+  * Local documents:
+      + Version history: ChangeLog
+      + License: LICENSE
+
+Requirements
+
+	* Linux Fedora 19 or newer;
+	* PHP 5.5.12 or newer;
+	* MariaDB 5.5.37 or newer;
+	* mod_epp 1.10 http://sourceforge.net/projects/aepps/
+	* mod_whois http://sourceforge.net/projects/modwhois/
+
+Introduction
+
+	EPP Server
+
+Installation
+
+yum install -y mysql-server bind bind-utils bind-sdb httpd httpd-devel mod_perl php-mysql php-mcrypt php-mbstring perl-CPAN lynx perl-ExtUtils-Embed perl-XML-LibXML perl-CGI perl-YAML wget apr-util-mysql mod_ssl openssl-devel
+
+# download http://sourceforge.net/projects/aepps/ and install mod_epp
+# mod_epp is developed by "Otmar Lendl" <lendl@nic.at>
+wget http://downloads.sourceforge.net/project/aepps/mod_epp/1.10/mod_epp-1.10.tar.gz
+tar -zxvf mod_epp-1.10.tar.gz
+cd mod_epp-1.10
+apxs -c -i mod_epp.c
+
+wget http://downloads.sourceforge.net/project/modwhois/mod_whois/0.1/mod_whois-0.1.tar.gz
+tar -zxvf mod_whois-0.1.tar.gz
+cd mod_whois
+apxs -c -i mod_whois.c
+
+
+perl -MCPAN -e 'install File::Type';
+perl -MCPAN -e 'install HTML::Template';
+perl -MCPAN -e 'install MIME::Lite';
+perl -MCPAN -e 'install Net::DNS';
+perl -MCPAN -e 'install Net::SSLeay';
+perl -MCPAN -e 'install Net::EPP';
+perl -MCPAN -e 'install XML::Writer';
+perl -MCPAN -e 'install XML::Writer::String';
+perl -MCPAN -e 'install XML::XPath';
+perl -MCPAN -e 'install XML::Parser';
+perl -MCPAN -e 'install MIME::Base64';
+perl -MCPAN -e 'install Authen::SASL';
+perl -MCPAN -e 'install Email::Valid';
+perl -MCPAN -e 'install CGI::Session';
+perl -MCPAN -e 'install Net::XWhois';
+
+groupadd -g 700 -r epp
+useradd -c "EPP" -d "/var/www/cgi-bin/epp" -g 700 -m -o -p YourPassWordHere -r epp -u 700 -s /bin/bash
+
+openssl genrsa -des3 -out /etc/pki/tls/private/www.xpanel.com.key 2048
+openssl req -new -key /etc/pki/tls/private/www.xpanel.com.key -out /etc/pki/tls/private/www.xpanel.com.csr
+# Removing passphrase from the RSA Private Key
+openssl rsa -in /etc/pki/tls/private/www.xpanel.com.key -out /etc/pki/tls/private/www.xpanel.com.key_with_encryption
+
+# Untar distribution direct on server: 
+tar -zxvf EPP_Server-1.0.12.tar.gz
+
+# if you run selinux
+cd /var/www/cgi-bin/epp/command/
+# for any .cgi files
+chcon -R -t  httpd_unconfined_script_exec_t *.cgi
+semanage port -a -t http_port_t -p tcp 700
+chmod 0755 /var/www/cgi-bin/epp
+
+
+Configuration
+
+	1. /etc/registry/registry.conf
+
+	2. in MySQL
+	SET PASSWORD FOR 'registry'@'localhost' = PASSWORD('EPPRegistry');
+	SET PASSWORD FOR 'registry-select'@'localhost' = PASSWORD('EPPRegistrySELECT');
+	SET PASSWORD FOR 'registry-update'@'localhost' = PASSWORD('EPPRegistryUPDATE');
+
+	3. /etc/httpd/conf.d/epp.conf
+
+# checking a remote certificate chain with openssl
+openssl s_client -showcerts -connect xpanel.com:700
+
+# test your connection from command line
+openssl s_client -connect xpanel.com:700 -CAfile /etc/pki/tls/certs/gd_bundle.crt -cert /etc/pki/tls/certs/xpanel.com.crt -key /etc/pki/tls/private/www.xpanel.com.key
+
+# registrar password
+# http://httpd.apache.org/docs/2.5/misc/password_encryptions.html
+htpasswd -ns username
+
+
+If you find any bugs, or if you experience any crashes, then we would very much like to hear about the issue.
+Please report any bugs at info@xpanel.com
+
+
+RFC compliant
+ - http://tools.ietf.org/html/rfc5730 - EPP
+ - http://tools.ietf.org/html/rfc5731 - EPP Domain Name Mapping
+ - http://tools.ietf.org/html/rfc5732 - EPP Host Mapping
+ - http://tools.ietf.org/html/rfc5733 - EPP Contact Mapping
+ - http://tools.ietf.org/html/rfc5734 - EPP Transport over TCP
+ - http://tools.ietf.org/html/rfc3915 - Domain Registry Grace Period Mapping for EPP
+ - http://tools.ietf.org/html/rfc5910 - (DNS) Security Extensions Mapping for EPP (under development)
+ - http://tools.ietf.org/html/rfc3735

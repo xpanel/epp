@@ -1,0 +1,24 @@
+#----------> Crontab Configuration for EPP Server <--------------------------------#
+
+ # run write-zone.pl every 15 min.
+*/15 * * * *	root	/var/www/cgi-bin/epp/cron/write-zone.pl >> /var/log/epp/write-zone.log
+
+ # run statistics.pl at 59 min, every hour
+59 * * * *	root	/var/www/cgi-bin/epp/cron/statistics.pl >> /var/log/epp/statistics.log
+
+ # run registry_db_backup.pl at 59 min, every hour
+59 * * * *	root	/usr/local/registry/registry_db_backup.pl >> /var/log/epp/registry_db_backup.log
+
+ # run change-domain-status.pl every hour
+30 * * * *	root	/var/www/cgi-bin/epp/cron/change-domain-status.pl >> /var/log/epp/change-domain-status.log
+
+ # run auto-approve-transfer.pl every hour
+45 * * * *	root	/var/www/cgi-bin/epp/cron/auto-approve-transfer.pl >> /var/log/epp/auto-approve-transfer.log
+
+ # run send-invoice.pl every 1st day
+1 0 1 * *	root	/var/www/cgi-bin/epp/cron/send-invoice.pl >> /var/log/epp/send-invoice.log
+
+ # run auto-clean-unused-contact-and-host.pl every day
+5 0 * * *	root	/var/www/cgi-bin/epp/cron/auto-clean-unused-contact-and-host.pl >> /var/log/epp/auto-clean-unused-contact-and-host.log
+
+#----------> End Crontab Configuration for EPP Server <----------------------------#

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body {
+			background: #ffffff url('globe.png') no-repeat 420px top;
+			margin:0px;
+			width:210mm;
+		}
+		*{
+			font-family: verdana,helvetica,arial,sans-serif;
+			font-size:18px;
+		}
+		table{
+			width:100%;
+		}
+		td,table,tr{
+			border-spacing: 0px;
+		}
+		table tr.header td{
+			border-bottom: 3px double black;
+		}
+		table tr.footer td{
+			border-top: 3px double black;
+			border-bottom: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<table width="100%"><tr><td>
+		<TMPL_VAR NAME="contact_org"><br/>
+		<TMPL_VAR NAME="contact_name"><br/>
+		<TMPL_VAR NAME="contact_street"><br/>
+		<TMPL_VAR NAME="contact_sp"><br/>
+		<TMPL_VAR NAME="contact_pc"> <TMPL_VAR NAME="contact_city"><br/>
+		<TMPL_VAR NAME="contact_cc"><br/>
+	</td><td>
+		St. main, <TMPL_VAR NAME="to_date"><br/>
+	</td></tr></table>
+	<br/>
+	<br/>
+	<br/>
+	Customer-id: <TMPL_VAR NAME="registrar_clid"><br/>
+	<br/>
+	<br/>
+	Invoice period: <TMPL_VAR NAME="from_date"> to <TMPL_VAR NAME="to_date"><br/>
+	For services in the above mentioned period we charge as follows:<br/>
+	<br/>
+	<table width="100%">
+		<tr class="header">
+			<td>Pos</td>
+			<td>Item</td>
+			<td>Unit</td>
+			<td>Sum</td>
+		</tr>
+		<TMPL_LOOP NAME="list">
+		<tr>
+			<td><TMPL_VAR NAME="nr"></td>
+			<td><TMPL_VAR NAME="item"></td>
+			<td><TMPL_VAR NAME="count"></td>
+			<td><TMPL_VAR NAME="sum"></td>
+		</tr>
+		</TMPL_LOOP>
+		<tr class="footer">
+			<td colspan="3">total:</td>
+			<td colspan="1"><TMPL_VAR NAME="total_price"> <TMPL_VAR NAME="currency"></td>
+		</tr>
+	</table>
+	<br/>
+	We hope that you are satisfied with our services!<br/>
+	<br/>
+	<br/>
+	Best regards,<br/>
+	<br/>
+	Your team @ Registry<br/>
+	<br/>
+	PS: If you have any questions concerning this invoice please mail to billing@nic.xx<br/>
+</body>
+</html>

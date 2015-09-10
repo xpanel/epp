@@ -1,0 +1,40 @@
+EPP Server - ChangeLog
+=========================
+
+1.0.1 (2011-12-23)
+- first release
+
+1.0.2 (2012-02-23)
+- second release
+
+1.0.3 (2012-04-27)
+- third release
+- this version run under mod_epp-1.8
+
+1.0.4 (2012-08-08)
+- this version run under mod_epp-1.9
+
+1.0.5 (2012-11-01)
+- httpd epp.conf edited
+
+1.0.6 (2012-11-27)
+- registry.sql edited
+
+1.0.7 (2012-12-12)
+- contact extension, info, create, update
+
+1.0.8 (2013-02-24)
+- registry.sql edited
+
+1.0.9 (2013-05-29)
+- send-invoice.pl edited
+
+1.0.10 (2013-07-24)
+- reserved_names table
+- registrar_contact table
+
+1.0.11 (2014-03-24)
+- command-update.cgi edited
+
+1.0.12 (2014-04-27)
+- command-update.cgi edited

@@ -1,0 +1,47 @@
+Registry LTD
+
+
+I N V O I C E
+
+<TMPL_VAR NAME="contact_org">
+<TMPL_VAR NAME="contact_name">
+<TMPL_VAR NAME="contact_street">
+<TMPL_VAR NAME="contact_sp">
+<TMPL_VAR NAME="contact_pc"> <TMPL_VAR NAME="contact_city">
+<TMPL_VAR NAME="contact_cc">
+
+
+                                               St. qqqqqqqqq, <TMPL_VAR NAME="to_date">
+
+
+
+
+                        *******************
+                           I N V O I C E
+                        *******************
+
+customer-id : <TMPL_VAR NAME="registrar_clid">
+
+
+
+Invoice period: <TMPL_VAR NAME="from_date"> until <TMPL_VAR NAME="to_date">
+
+For the registration services of the following items:
+
+   pos date       itemtype        description                      amount type     price  currency
+--------------------------------------------------------------------------------------------------
+<TMPL_LOOP NAME="list"><TMPL_VAR NAME="row">
+</TMPL_LOOP>
+--------------------------------------------------------------------------------------------------
+total:                                                                             <TMPL_VAR NAME="total_price"> <TMPL_VAR NAME="currency">
+==================================================================================================
+
+
+We hope that you are satisfied with our servies!
+
+
+Best regards,
+
+Your team @ Registry
+
+PS: If you have any questions concerning this invoice please mail to billing@nic.xx

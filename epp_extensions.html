@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<title>EPP Extensions - Extensible Provisioning Protocol (EPP) Contact Mapping</title>
+
+<style type="text/css">
+body {
+	margin: 0px 8px;
+	font-size: 1em;
+}
+	h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+	font-weight: bold;
+	line-height: 0pt;
+	display: inline;
+	white-space: pre;
+	font-family: monospace;
+	font-size: 1em;
+	font-weight: bold;
+}
+pre {
+	font-size: 1em;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+.pre {
+	white-space: pre;
+	font-family: monospace;
+}
+.header{
+	font-weight: bold;
+}
+.newpage {
+	page-break-before: always;
+}
+.invisible {
+	text-decoration: none;
+	color: white;
+}
+a.selflink {
+	color: black;
+	text-decoration: none;
+}
+@media print {
+body {
+	font-family: monospace;
+	font-size: 10.5pt;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 1em;
+}
+
+a:link, a:visited {
+	color: inherit;
+	text-decoration: none;
+}
+.noprint {
+	display: none;
+}
+}
+@media screen {
+.grey, .grey a:link, .grey a:visited {
+	color: #777;
+}
+.red, .red a:link, .red a:visited {
+	color: #FF0000;
+}
+.docinfo {
+	background-color: #EEE;
+}
+.top {
+	border-top: 7px solid #EEE;
+}
+.bgwhite  { background-color: white; }
+.bgred    { background-color: #F44; }
+.bggrey   { background-color: #666; }
+.bgbrown  { background-color: #840; }            
+.bgorange { background-color: #FA0; }
+.bgyellow { background-color: #EE0; }
+.bgmagenta{ background-color: #F4F; }
+.bgblue   { background-color: #66F; }
+.bgcyan   { background-color: #4DD; }
+.bggreen  { background-color: #4F4; }
+
+.legend   { font-size: 90%; }
+.cplate   { font-size: 70%; border: solid grey 1px; }
+}
+</style>
+    <!--[if IE]>
+    <style>
+    body {
+       font-size: 13px;
+       margin: 10px 10px;
+    }
+    </style>
+    <![endif]-->
+
+</head>
+<body>
+
+<pre class='newpage'>
+   Example &lt;info&gt; response for an authorized client:
+
+   S:&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+   S:&lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+   S:     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+   S:  &lt;response&gt;
+   S:    &lt;result code="1000"&gt;
+   S:      &lt;msg&gt;Command completed successfully&lt;/msg&gt;
+   S:    &lt;/result&gt;
+   S:    &lt;resData&gt;
+   S:      &lt;contact:infData
+   S:       xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"&gt;
+   S:        &lt;contact:id&gt;AB-8013&lt;/contact:id&gt;
+   S:        &lt;contact:roid&gt;SH8013-REP&lt;/contact:roid&gt;
+   S:        &lt;contact:status s="linked"/&gt;
+   S:        &lt;contact:status s="clientDeleteProhibited"/&gt;
+   S:        &lt;contact:postalInfo type="int"&gt;
+   S:          &lt;contact:name&gt;John Doe&lt;/contact:name&gt;
+   S:          &lt;contact:org&gt;Example Inc.&lt;/contact:org&gt;
+   S:          &lt;contact:addr&gt;
+   S:            &lt;contact:street&gt;123 Example Dr.&lt;/contact:street&gt;
+   S:            &lt;contact:street&gt;Suite 100&lt;/contact:street&gt;
+   S:            &lt;contact:city&gt;Dulles&lt;/contact:city&gt;
+   S:            &lt;contact:sp&gt;VA&lt;/contact:sp&gt;
+   S:            &lt;contact:pc&gt;20166-6503&lt;/contact:pc&gt;
+   S:            &lt;contact:cc&gt;US&lt;/contact:cc&gt;
+   S:          &lt;/contact:addr&gt;
+   S:        &lt;/contact:postalInfo&gt;
+   S:        &lt;contact:voice x="1234"&gt;+1.7035555555&lt;/contact:voice&gt;
+   S:        &lt;contact:fax&gt;+1.7035555556&lt;/contact:fax&gt;
+   S:        &lt;contact:email&gt;jdoe@example.com&lt;/contact:email&gt;
+   S:        &lt;contact:clID&gt;ClientY&lt;/contact:clID&gt;
+   S:        &lt;contact:crID&gt;ClientX&lt;/contact:crID&gt;
+   S:        &lt;contact:crDate&gt;1999-04-03T22:00:00.0Z&lt;/contact:crDate&gt;
+   S:        &lt;contact:upID&gt;ClientX&lt;/contact:upID&gt;
+   S:        &lt;contact:upDate&gt;1999-12-03T09:00:00.0Z&lt;/contact:upDate&gt;
+   S:        &lt;contact:trDate&gt;2000-04-08T09:00:00.0Z&lt;/contact:trDate&gt;
+   S:        &lt;contact:authInfo&gt;
+   S:          &lt;contact:pw&gt;2fooBAR&lt;/contact:pw&gt;
+   S:        &lt;/contact:authInfo&gt;
+   S:        &lt;contact:disclose flag="0"&gt;
+   S:          &lt;contact:voice/&gt;
+   S:          &lt;contact:email/&gt;
+   S:        &lt;/contact:disclose&gt;
+   S:      &lt;/contact:infData&gt;
+   S:    &lt;/resData&gt;
+   <span class="red">S:    &lt;extension&gt;
+   S:      &lt;identExt:infData
+   S:       xmlns:identExt="http://www.nic.xx/XXNIC-EPP/identExt-1.0"
+   S:       xsi:schemaLocation="http://www.nic.xx/XXNIC-EPP/identExt-1.0 identExt-1.0.xsd"&gt;
+   S:        &lt;identExt:nin type="personal"&gt;1234567890&lt;/identExt:nin&gt;
+   S:      &lt;/identExt:infData&gt;
+   S:    &lt;/extension&gt;</span>
+   S:    &lt;trID&gt;
+   S:      &lt;clTRID&gt;ABC-12345&lt;/clTRID&gt;
+   S:      &lt;svTRID&gt;54322-XYZ&lt;/svTRID&gt;
+   S:    &lt;/trID&gt;
+   S:  &lt;/response&gt;
+   S:&lt;/epp&gt;</pre>
+
+   <br />
+      <br />
+	     <br />
+		    <br />
+   
+   <!--NewPage-->
+   
+   
+<pre class='newpage'>
+   Example &lt;create&gt; command:
+
+   C:&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+   C:&lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+   C:     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+   C:  &lt;command&gt;
+   C:    &lt;create&gt;
+   C:      &lt;contact:create
+   C:       xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"&gt;
+   C:        &lt;contact:id&gt;AB-8013&lt;/contact:id&gt;
+   C:        &lt;contact:postalInfo type="int"&gt;
+   C:          &lt;contact:name&gt;John Doe&lt;/contact:name&gt;
+   C:          &lt;contact:org&gt;Example Inc.&lt;/contact:org&gt;
+   C:          &lt;contact:addr&gt;
+   C:            &lt;contact:street&gt;123 Example Dr.&lt;/contact:street&gt;
+   C:            &lt;contact:street&gt;Suite 100&lt;/contact:street&gt;
+   C:            &lt;contact:city&gt;Dulles&lt;/contact:city&gt;
+   C:            &lt;contact:sp&gt;VA&lt;/contact:sp&gt;
+   C:            &lt;contact:pc&gt;20166-6503&lt;/contact:pc&gt;
+   C:            &lt;contact:cc&gt;US&lt;/contact:cc&gt;
+   C:          &lt;/contact:addr&gt;
+   C:        &lt;/contact:postalInfo&gt;
+   C:        &lt;contact:voice x="1234"&gt;+1.7035555555&lt;/contact:voice&gt;
+   C:        &lt;contact:fax&gt;+1.7035555556&lt;/contact:fax&gt;
+   C:        &lt;contact:email&gt;jdoe@example.com&lt;/contact:email&gt;
+   C:        &lt;contact:authInfo&gt;
+   C:          &lt;contact:pw&gt;2fooBAR&lt;/contact:pw&gt;
+   C:        &lt;/contact:authInfo&gt;
+   C:        &lt;contact:disclose flag="0"&gt;
+   C:          &lt;contact:voice/&gt;
+   C:          &lt;contact:email/&gt;
+   C:        &lt;/contact:disclose&gt;
+   C:      &lt;/contact:create&gt;
+   C:    &lt;/create&gt;
+   <span class="red">C:    &lt;extension&gt;
+   C:      &lt;identExt:create
+   C:       xmlns:identExt="http://www.nic.xx/XXNIC-EPP/identExt-1.0"
+   C:       xsi:schemaLocation="http://www.nic.xx/XXNIC-EPP/identExt-1.0 identExt-1.0.xsd"&gt;
+   C:        &lt;identExt:nin type="business"&gt;1234567890&lt;/identExt:nin&gt;
+   C:      &lt;/identExt:create&gt;
+   C:    &lt;/extension&gt;</span>
+   C:    &lt;clTRID&gt;ABC-12345&lt;/clTRID&gt;
+   C:  &lt;/command&gt;
+   C:&lt;/epp&gt;</pre>
+
+   <br />
+      <br />
+	     <br />
+		    <br />
+   
+   <!--NewPage-->
+   
+   
+<pre class='newpage'>
+   Example &lt;update&gt; command:
+
+   C:&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+   C:&lt;epp xmlns="urn:ietf:params:xml:ns:epp-1.0"
+   C:     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+   C:  &lt;command&gt;
+   C:    &lt;update&gt;
+   C:      &lt;contact:update
+   C:       xmlns:contact="urn:ietf:params:xml:ns:contact-1.0"&gt;
+   C:        &lt;contact:id&gt;AB-8013&lt;/contact:id&gt;
+   C:        &lt;contact:add&gt;
+   C:          &lt;contact:status s="clientDeleteProhibited"/&gt;
+   C:        &lt;/contact:add&gt;
+   C:        &lt;contact:chg&gt;
+   C:          &lt;contact:postalInfo type="int"&gt;
+   C:            &lt;contact:org/&gt;
+   C:            &lt;contact:addr&gt;
+   C:              &lt;contact:street&gt;124 Example Dr.&lt;/contact:street&gt;
+   C:              &lt;contact:street&gt;Suite 200&lt;/contact:street&gt;
+   C:              &lt;contact:city&gt;Dulles&lt;/contact:city&gt;
+   C:              &lt;contact:sp&gt;VA&lt;/contact:sp&gt;
+   C:              &lt;contact:pc&gt;20166-6503&lt;/contact:pc&gt;
+   C:              &lt;contact:cc&gt;US&lt;/contact:cc&gt;
+   C:            &lt;/contact:addr&gt;
+   C:          &lt;/contact:postalInfo&gt;
+   C:          &lt;contact:voice&gt;+1.7034444444&lt;/contact:voice&gt;
+   C:          &lt;contact:fax/&gt;
+   C:          &lt;contact:authInfo&gt;
+   C:            &lt;contact:pw&gt;2fooBAR&lt;/contact:pw&gt;
+   C:          &lt;/contact:authInfo&gt;
+   C:          &lt;contact:disclose flag="1"&gt;
+   C:            &lt;contact:voice/&gt;
+   C:            &lt;contact:email/&gt;
+   C:          &lt;/contact:disclose&gt;
+   C:        &lt;/contact:chg&gt;
+   C:      &lt;/contact:update&gt;
+   C:    &lt;/update&gt;
+   <span class="red">C:    &lt;extension&gt;
+   C:      &lt;identExt:update
+   C:       xmlns:identExt="http://www.nic.xx/XXNIC-EPP/identExt-1.0"
+   C:       xsi:schemaLocation="http://www.nic.xx/XXNIC-EPP/identExt-1.0 identExt-1.0.xsd"&gt;
+   C:        &lt;identExt:nin type="personal"&gt;1234567890&lt;/identExt:nin&gt;
+   C:      &lt;/identExt:update&gt;
+   C:    &lt;/extension&gt;</span>
+   C:    &lt;clTRID&gt;ABC-12345&lt;/clTRID&gt;
+   C:  &lt;/command&gt;
+   C:&lt;/epp&gt;</pre>
+
+   <br />
+
+   <br />
+      <br />
+	     <br />
+		    <br />
+   
+   <!--NewPage-->
+
+&lt;identExt:nin type="personal"&gt;1234567890&lt;/identExt:nin&gt;
+<br />
+&lt;identExt:nin type="business"&gt;1234567890&lt;/identExt:nin&gt;
+
+</body></html>
