@@ -13,17 +13,17 @@ CREATE TABLE IF NOT EXISTS `registry`.`domain_price` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`tldid` int(10) unsigned NOT NULL,
 	`command` enum('create','renew','transfer') NOT NULL default 'create',
-	`0` decimal(10,2) NOT NULL default '0.00',
-	`12` decimal(10,2) NOT NULL default '0.00',
-	`24` decimal(10,2) NOT NULL default '0.00',
-	`36` decimal(10,2) NOT NULL default '0.00',
-	`48` decimal(10,2) NOT NULL default '0.00',
-	`60` decimal(10,2) NOT NULL default '0.00',
-	`72` decimal(10,2) NOT NULL default '0.00',
-	`84` decimal(10,2) NOT NULL default '0.00',
-	`96` decimal(10,2) NOT NULL default '0.00',
-	`108` decimal(10,2) NOT NULL default '0.00',
-	`120` decimal(10,2) NOT NULL default '0.00',
+	`m0` decimal(10,2) NOT NULL default '0.00',
+	`m12` decimal(10,2) NOT NULL default '0.00',
+	`m24` decimal(10,2) NOT NULL default '0.00',
+	`m36` decimal(10,2) NOT NULL default '0.00',
+	`m48` decimal(10,2) NOT NULL default '0.00',
+	`m60` decimal(10,2) NOT NULL default '0.00',
+	`m72` decimal(10,2) NOT NULL default '0.00',
+	`m84` decimal(10,2) NOT NULL default '0.00',
+	`m96` decimal(10,2) NOT NULL default '0.00',
+	`m108` decimal(10,2) NOT NULL default '0.00',
+	`m120` decimal(10,2) NOT NULL default '0.00',
 	PRIMARY KEY  (`id`),
 	UNIQUE KEY `unique_record` (`tldid`,`command`),
 	CONSTRAINT `domain_price_ibfk_1` FOREIGN KEY (`tldid`) REFERENCES `domain_tld` (`id`) ON DELETE RESTRICT
@@ -70,6 +70,15 @@ CREATE TABLE IF NOT EXISTS `registry`.`registrar` (
 	UNIQUE KEY `prefix` (`prefix`),
 	UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='registrar';
+
+CREATE TABLE IF NOT EXISTS `registry`.`registrar_whitelist` (
+	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`registrar_id` int(10) unsigned NOT NULL,
+	`addr` varchar(45) NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `uniquekey` (`registrar_id`,`addr`),
+	CONSTRAINT `registrar_whitelist_ibfk_1` FOREIGN KEY (`registrar_id`) REFERENCES `registrar` (`id`) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='registrar whitelist';
 
 CREATE TABLE IF NOT EXISTS `registry`.`registrar_contact` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -366,7 +375,7 @@ CREATE TABLE IF NOT EXISTS `registry`.`host_addr` (
 	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 	`host_id` int(10) unsigned NOT NULL,
 	`addr` varchar(45) NOT NULL,
-	`ip` enum('4','6') NOT NULL default '4',
+	`ip` enum('v4','v6') NOT NULL default 'v4',
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `unique` (`host_id`,`addr`,`ip`),
 	CONSTRAINT `host_addr_ibfk_1` FOREIGN KEY (`host_id`) REFERENCES `host` (`id`) ON DELETE RESTRICT
@@ -522,6 +531,8 @@ CREATE TABLE IF NOT EXISTS `registryTransaction`.`transaction_identifier` (
 	`svdate` datetime,
 	`svmicrosecond` int(6),
 	PRIMARY KEY (`id`),
+	UNIQUE KEY `clTRID` (`clTRID`),
+	UNIQUE KEY `svTRID` (`svTRID`),
 	CONSTRAINT `transaction_identifier_ibfk_1` FOREIGN KEY (`registrar_id`) REFERENCES `registry`.`registrar` (`id`) ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='transaction identifier';
 
