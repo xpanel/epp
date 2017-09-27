@@ -9,7 +9,7 @@ package EPP::Version;
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -52,14 +52,14 @@ our @_OBJURIS = (
 	'urn:ietf:params:xml:ns:domain-1.0',
 	'urn:ietf:params:xml:ns:contact-1.0',
 	'urn:ietf:params:xml:ns:host-1.0',
-	'http://www.nic.xx/XXNIC-EPP/balance-1.0',
-	'http://www.nic.xx/XXNIC-EPP/lowbalance-poll-1.0',
-	'http://www.nic.xx/XXNIC-EPP/rgp-poll-1.0' );
+	'http://www.verisign.com/epp/balance-1.0',
+	'http://www.verisign.com/epp/lowbalance-poll-1.0',
+	'http://www.verisign.com/epp/rgp-poll-1.0' );
 
 our @_EXTENSIONS = (
 	'urn:ietf:params:xml:ns:rgp-1.0',
 	'urn:ietf:params:xml:ns:secDNS-1.1',
-	'http://www.nic.xx/XXNIC-EPP/idnLang-1.0',
+	'http://www.verisign.com/epp/idnLang-1.0',
 	'http://www.nic.xx/XXNIC-EPP/identExt-1.0' );
 
 sub SRS_VERSION {

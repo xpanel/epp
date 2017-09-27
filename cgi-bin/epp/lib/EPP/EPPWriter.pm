@@ -9,7 +9,7 @@ package EPP::EPPWriter;
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -197,7 +197,7 @@ sub _poll {
 		#---------------- <resData>
 		if ($resp->{poll_msg_type} eq 'lowBalance') {
 			$writer->startTag('resData');
-				$writer->startTag('lowbalance-poll:pollData', 'xmlns:lowbalance-poll' => 'http://www.nic.xx/XXNIC-EPP/lowbalance-poll-1.0', 'xsi:schemaLocation' => 'http://www.nic.xx/XXNIC-EPP/lowbalance-poll-1.0 lowbalance-poll-1.0.xsd');
+				$writer->startTag('lowbalance-poll:pollData', 'xmlns:lowbalance-poll' => 'http://www.verisign.com/epp/lowbalance-poll-1.0', 'xsi:schemaLocation' => 'http://www.verisign.com/epp/lowbalance-poll-1.0 lowbalance-poll-1.0.xsd');
 				$writer->dataElement('lowbalance-poll:registrarName', $resp->{registrarName});
 				$writer->dataElement('lowbalance-poll:creditLimit', $resp->{creditLimit});
 				$writer->dataElement('lowbalance-poll:creditThreshold', $resp->{creditThreshold}, 'type' => $resp->{creditThresholdType});
@@ -649,7 +649,7 @@ sub _info_balance {
 
     if (epp_success($resp->{resultCode})) {
         $writer->startTag('resData');
-            $writer->startTag('balance:infData', 'xmlns:balance' => 'http://www.nic.xx/XXNIC-EPP/balance-1.0', 'xsi:schemaLocation' => 'http://www.nic.xx/XXNIC-EPP/balance-1.0 balance-1.0.xsd');
+            $writer->startTag('balance:infData', 'xmlns:balance' => 'http://www.verisign.com/epp/balance-1.0', 'xsi:schemaLocation' => 'http://www.verisign.com/epp/balance-1.0 balance-1.0.xsd');
 
                $writer->dataElement('balance:creditLimit', $resp->{creditLimit});
                $writer->dataElement('balance:balance', $resp->{balance});
