@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -848,7 +848,7 @@ elsif ($obj = $xp->find('domain:create',$node)->get_node(0)) {
 	# aici facem o verificare daca are bani pe cont de deposit
 	#_________________________________________________________________________________________________________________
 	my ($registrar_balance,$creditLimit) = $dbh->selectrow_array("SELECT `accountBalance`,`creditLimit` FROM `registrar` WHERE `id` = '$registrar_id' LIMIT 1");
-	my ($price) = $dbh->selectrow_array("SELECT `$date_add` FROM `domain_price` WHERE `tldid` = '$tld_id' AND `command` = 'create' LIMIT 1");
+	my ($price) = $dbh->selectrow_array("SELECT `m$date_add` FROM `domain_price` WHERE `tldid` = '$tld_id' AND `command` = 'create' LIMIT 1");
 
 	if (!defined($price)) {
 		$blob->{resultCode} = 2400; # Command failed
@@ -1687,11 +1687,9 @@ elsif ($obj = $xp->find('domain:create',$node)->get_node(0)) {
 			foreach my $node ($hostAddr_list->get_nodelist) {
 				my $hostAddr = $node->string_value;
 				my $addr_type = $node->findvalue('@ip[1]') || 'v4';
-				# v4 => 4; v6 => 6
-				$addr_type =~ s/\D//g;
 
 				# normalise
-				if ($addr_type == 6) {
+				if ($addr_type eq 'v6') {
 					$hostAddr = _normalise_v6_address($hostAddr);
 				}
 				else {

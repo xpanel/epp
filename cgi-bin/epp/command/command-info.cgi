@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -53,7 +53,7 @@ $xp->set_namespace('epp', 'urn:ietf:params:xml:ns:epp-1.0');
 $xp->set_namespace('contact', 'urn:ietf:params:xml:ns:contact-1.0');
 $xp->set_namespace('domain', 'urn:ietf:params:xml:ns:domain-1.0');
 $xp->set_namespace('host', 'urn:ietf:params:xml:ns:host-1.0');
-	$xp->set_namespace('balance', 'http://www.nic.xx/XXNIC-EPP/balance-1.0');
+	$xp->set_namespace('balance', 'http://www.verisign.com/epp/balance-1.0');
 
 my $blob = {};
 $blob->{clTRID} = $cltrid;

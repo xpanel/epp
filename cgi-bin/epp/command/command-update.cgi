@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -1640,11 +1640,9 @@ elsif ($obj = $xp->find('domain:update',$update_node)->get_node(0)) {
 				foreach my $node ($hostAddr_list->get_nodelist) {
 					my $hostAddr = $node->string_value;
 					my $addr_type = $node->findvalue('@ip[1]') || 'v4';
-					# v4 => 4; v6 => 6
-					$addr_type =~ s/\D//g;
 
 					# normalise
-					if ($addr_type == 6) {
+					if ($addr_type eq 'v6') {
 						$hostAddr = _normalise_v6_address($hostAddr);
 					}
 					else {
@@ -1752,7 +1750,7 @@ elsif ($obj = $xp->find('domain:update',$update_node)->get_node(0)) {
 				# aici facem o verificare daca are bani pe cont pentru restore si renew un an
 				#_________________________________________________________________________________________________________________
 				my ($registrar_balance,$creditLimit) = $dbh->selectrow_array("SELECT `accountBalance`,`creditLimit` FROM `registrar` WHERE `id` = '$registrar_id' LIMIT 1");
-				my $renew_price = $dbh->selectrow_array("SELECT `12` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
+				my $renew_price = $dbh->selectrow_array("SELECT `m12` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
 				my $restore_price = $dbh->selectrow_array("SELECT `price` FROM `domain_restore_price` WHERE `tldid` = '$tldid' LIMIT 1");
 
 				if (($registrar_balance + $creditLimit) < ($renew_price + $restore_price)) {
@@ -2200,8 +2198,6 @@ elsif ($obj = $xp->find('host:update',$update_node)->get_node(0)) {
 		foreach my $node ($addr_list->get_nodelist) {
 			my $addr = $node->string_value;
 			my $addr_type = $node->findvalue('@ip[1]') || 'v4';
-			# v4 => 4; v6 => 6
-			$addr_type =~ s/\D//g;
 			my $sth = $dbh->prepare("DELETE FROM `host_addr` WHERE `host_id` = ? AND `addr` = ? AND `ip` = ?") or die $dbh->errstr;
 			$sth->execute($host_id,$addr,$addr_type) or die $sth->errstr;
 		}
@@ -2221,11 +2217,9 @@ elsif ($obj = $xp->find('host:update',$update_node)->get_node(0)) {
 		foreach my $node ($addr_list->get_nodelist) {
 			my $addr = $node->string_value;
 			my $addr_type = $node->findvalue('@ip[1]') || 'v4';
-			# v4 => 4; v6 => 6
-			$addr_type =~ s/\D//g;
 
 			# normalise
-			if ($addr_type == 6) {
+			if ($addr_type eq 'v6') {
 				$addr = _normalise_v6_address($addr);
 			}
 			else {

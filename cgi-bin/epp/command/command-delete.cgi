@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -249,7 +249,7 @@ elsif ($obj = $xp->find('domain:delete',$node)->get_node(0)) {
 			my ($addPeriod_id) = $dbh->selectrow_array("SELECT `id` FROM `domain` WHERE `id` = '$domain_id' AND (CURRENT_TIMESTAMP < DATE_ADD(`crdate`, INTERVAL 5 DAY)) LIMIT 1");
 			if ($addPeriod_id) {
 				# ii dam banii inapoi
-				my ($price) = $dbh->selectrow_array("SELECT `$addPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'create' LIMIT 1");
+				my ($price) = $dbh->selectrow_array("SELECT `m$addPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'create' LIMIT 1");
 				if (!defined($price)) {
 					$blob->{resultCode} = 2400; # Command failed
 					$blob->{human_readable_message} = 'Nu este declarat pretul, perioada si valuta pentru asa TLD';
@@ -312,7 +312,7 @@ elsif ($obj = $xp->find('domain:delete',$node)->get_node(0)) {
 			my ($autoRenewPeriod_id) = $dbh->selectrow_array("SELECT `id` FROM `domain` WHERE `id` = '$domain_id' AND (CURRENT_TIMESTAMP < DATE_ADD(`renewedDate`, INTERVAL 45 DAY)) LIMIT 1");
 			if ($autoRenewPeriod_id) {
 				# ii dam banii inapoi
-				my ($price) = $dbh->selectrow_array("SELECT `$autoRenewPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
+				my ($price) = $dbh->selectrow_array("SELECT `m$autoRenewPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
 				if (!defined($price)) {
 					$blob->{resultCode} = 2400; # Command failed
 					$blob->{human_readable_message} = 'Nu este declarat pretul, perioada si valuta pentru asa TLD';
@@ -334,7 +334,7 @@ elsif ($obj = $xp->find('domain:delete',$node)->get_node(0)) {
 			my ($renewPeriod_id) = $dbh->selectrow_array("SELECT `id` FROM `domain` WHERE `id` = '$domain_id' AND (CURRENT_TIMESTAMP < DATE_ADD(`renewedDate`, INTERVAL 5 DAY)) LIMIT 1");
 			if ($renewPeriod_id) {
 				# ii dam banii inapoi
-				my ($price) = $dbh->selectrow_array("SELECT `$renewPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
+				my ($price) = $dbh->selectrow_array("SELECT `m$renewPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
 				if (!defined($price)) {
 					$blob->{resultCode} = 2400; # Command failed
 					$blob->{human_readable_message} = 'Nu este declarat pretul, perioada si valuta pentru asa TLD';
@@ -357,7 +357,7 @@ elsif ($obj = $xp->find('domain:delete',$node)->get_node(0)) {
 			if ($transferPeriod_id) {
 				# ii dam banii inapoi daca la transfer a fost facut si un renew
 				if ($transferPeriod > 0) {
-					my ($price) = $dbh->selectrow_array("SELECT `$transferPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
+					my ($price) = $dbh->selectrow_array("SELECT `m$transferPeriod` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
 					if (!defined($price)) {
 						$blob->{resultCode} = 2400; # Command failed
 						$blob->{human_readable_message} = 'Nu este declarat pretul, perioada si valuta pentru asa TLD';
