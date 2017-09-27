@@ -1,7 +1,7 @@
 EPP Server - Readme
 ===================
 
-Version 1.0.12
+Version 1.0.15
 
 A EPP Server based on mod_epp and mod_whois.
 
@@ -10,7 +10,7 @@ http://www.xpanel.com/
 Copyright
 ---------
 
-(c) Copyright 2014 XPanel Ltd.
+(c) Copyright 2017 XPanel Ltd.
 
 License
 -------
@@ -20,9 +20,9 @@ The EPP Server developed by XPanel Ltd. is licensed under the Apache License, v.
 Requirements
 ------------
 
-* PHP 5.5 or later
-* MySQL 5.5 or later
-* Fedora 19 or later
+* PHP 7.1.9 or later
+* MariaDB 10.1.26 or later
+* Fedora 26 or later
 
 Summary
 -------

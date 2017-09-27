@@ -1,4 +1,4 @@
-EPP Server 1.0.12 Documentation
+EPP Server 1.0.15 Documentation
 
   * Requirements
   * Introduction
@@ -10,9 +10,10 @@ EPP Server 1.0.12 Documentation
 
 Requirements
 
-	* Linux Fedora 19 or newer;
-	* PHP 5.5.12 or newer;
-	* MariaDB 5.5.37 or newer;
+	* Linux Fedora 26 or newer;
+	* Perl v5.24.2 or newer;
+	* PHP 7.1.9 or newer;
+	* MariaDB 10.1.26 or newer;
 	* mod_epp 1.10 http://sourceforge.net/projects/aepps/
 	* mod_whois http://sourceforge.net/projects/modwhois/
 
@@ -22,10 +23,20 @@ Introduction
 
 Installation
 
-yum install -y mysql-server bind bind-utils bind-sdb httpd httpd-devel mod_perl php-mysql php-mcrypt php-mbstring perl-CPAN lynx perl-ExtUtils-Embed perl-XML-LibXML perl-CGI perl-YAML wget apr-util-mysql mod_ssl openssl-devel
+dnf install -y mariadb-server bind bind-utils bind-sdb httpd httpd-devel mod_perl php-mcrypt php-mbstring perl-CPAN lynx perl-ExtUtils-Embed perl-XML-LibXML perl-CGI perl-YAML wget apr-util-mysql mod_ssl openssl-devel redhat-rpm-config pbzip2 perl-Test-Pod perl-File-Type perl-HTML-Template perl-MIME-Lite perl-Net-DNS perl-Net-SSLeay perl-XML-LibXML perl-XML-Parser perl-XML-Writer perl-XML-XPath perl-Authen-SASL perl-XML-Writer-String perl-MIME-Base64 perl-Email-Valid perl-CGI-Session gcc net-tools git
+
+
+perl -MCPAN -e 'install Test';
+perl -MCPAN -e 'install Net::EPP';
+perl -MCPAN -e 'install Net::XWhois';
+
+
+groupadd -g 7000 -r epp
+useradd -c "EPP" -d "/var/www/cgi-bin/epp" -g 7000 -m -o -p YourPassWordHere -r epp -u 7000 -s /bin/bash
+
 
 # download http://sourceforge.net/projects/aepps/ and install mod_epp
-# mod_epp is developed by "Otmar Lendl" <lendl@nic.at>
+# mod_epp was developed by "Otmar Lendl"
 wget http://downloads.sourceforge.net/project/aepps/mod_epp/1.10/mod_epp-1.10.tar.gz
 tar -zxvf mod_epp-1.10.tar.gz
 cd mod_epp-1.10
@@ -37,42 +48,33 @@ cd mod_whois
 apxs -c -i mod_whois.c
 
 
-perl -MCPAN -e 'install File::Type';
-perl -MCPAN -e 'install HTML::Template';
-perl -MCPAN -e 'install MIME::Lite';
-perl -MCPAN -e 'install Net::DNS';
-perl -MCPAN -e 'install Net::SSLeay';
-perl -MCPAN -e 'install Net::EPP';
-perl -MCPAN -e 'install XML::Writer';
-perl -MCPAN -e 'install XML::Writer::String';
-perl -MCPAN -e 'install XML::XPath';
-perl -MCPAN -e 'install XML::Parser';
-perl -MCPAN -e 'install MIME::Base64';
-perl -MCPAN -e 'install Authen::SASL';
-perl -MCPAN -e 'install Email::Valid';
-perl -MCPAN -e 'install CGI::Session';
-perl -MCPAN -e 'install Net::XWhois';
 
-groupadd -g 700 -r epp
-useradd -c "EPP" -d "/var/www/cgi-bin/epp" -g 700 -m -o -p YourPassWordHere -r epp -u 700 -s /bin/bash
+
+
+# Untar distribution direct on server:
+tar -zxvf EPP_Server-1.0.15.tar.gz
+
+# install database
+systemctl enable mariadb
+mysql_secure_installation
+mysql -u root -p <registry.sql
+
+# if you run selinux
+semanage port -a -t http_port_t -p tcp 700
+chmod 0755 /var/www/cgi-bin/epp
 
 openssl genrsa -des3 -out /etc/pki/tls/private/www.xpanel.com.key 2048
 openssl req -new -key /etc/pki/tls/private/www.xpanel.com.key -out /etc/pki/tls/private/www.xpanel.com.csr
 # Removing passphrase from the RSA Private Key
 openssl rsa -in /etc/pki/tls/private/www.xpanel.com.key -out /etc/pki/tls/private/www.xpanel.com.key_with_encryption
 
-# Untar distribution direct on server: 
-tar -zxvf EPP_Server-1.0.12.tar.gz
 
-# if you run selinux
-cd /var/www/cgi-bin/epp/command/
-# for any .cgi files
-chcon -R -t  httpd_unconfined_script_exec_t *.cgi
-semanage port -a -t http_port_t -p tcp 700
-chmod 0755 /var/www/cgi-bin/epp
 
 
 Configuration
+
+mkdir /etc/registry
+mkdir /usr/local/registry
 
 	1. /etc/registry/registry.conf
 
@@ -90,7 +92,7 @@ openssl s_client -showcerts -connect xpanel.com:700
 openssl s_client -connect xpanel.com:700 -CAfile /etc/pki/tls/certs/gd_bundle.crt -cert /etc/pki/tls/certs/xpanel.com.crt -key /etc/pki/tls/private/www.xpanel.com.key
 
 # registrar password
-# http://httpd.apache.org/docs/2.5/misc/password_encryptions.html
+# https://httpd.apache.org/docs/trunk/misc/password_encryptions.html
 htpasswd -ns username
 
 
@@ -107,3 +109,18 @@ RFC compliant
  - http://tools.ietf.org/html/rfc3915 - Domain Registry Grace Period Mapping for EPP
  - http://tools.ietf.org/html/rfc5910 - (DNS) Security Extensions Mapping for EPP (under development)
  - http://tools.ietf.org/html/rfc3735
+
+
+
+
+git clone https://github.com/certbot/certbot.git
+cd certbot/
+./letsencrypt-auto --help
+systemctl stop httpd
+./letsencrypt-auto certonly --standalone
+
+
+SSLCertificateFile /etc/letsencrypt/live/epp.yourhostname.com/cert.pem
+SSLCertificateKeyFile /etc/letsencrypt/live/epp.yourhostname.com/privkey.pem
+SSLCACertificateFile /etc/letsencrypt/live/epp.yourhostname.com/chain.pem
+#SSLVerifyClient require

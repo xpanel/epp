@@ -38,3 +38,13 @@ EPP Server - ChangeLog
 
 1.0.12 (2014-04-27)
 - command-update.cgi edited
+
+1.0.13 (2016-12-27)
+- epp.conf edited
+
+1.0.14 (2017-01-27)
+- registry.sql edited
+
+1.0.15 (2017-09-27)
+- registry.sql edited
+
