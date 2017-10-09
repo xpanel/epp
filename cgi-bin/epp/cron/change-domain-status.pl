@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -60,7 +60,7 @@ if ($auto_renew) {
 			# aici o matematica daca are bani pentru autoRenew
 			#_________________________________________________________________________________________________________________
 			my ($registrar_balance,$creditLimit) = $dbh->selectrow_array("SELECT `accountBalance`,`creditLimit` FROM `registrar` WHERE `id` = '$clid' LIMIT 1");
-			my $price = $dbh->selectrow_array("SELECT `12` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
+			my $price = $dbh->selectrow_array("SELECT `m12` FROM `domain_price` WHERE `tldid` = '$tldid' AND `command` = 'renew' LIMIT 1");
 
 			if (($registrar_balance + $creditLimit) > $price) {
 				#_________________________________________________________________________________________________________________

@@ -9,7 +9,7 @@
 #	Version: 1.0.0
 #	Web Site: http://www.xpanel.com/
 #
-#	(c) Copyright 2014 XPanel Ltd.
+#	(c) Copyright 2017 XPanel Ltd.
 #
 # *  XPanel Ltd. licenses this file to You under the Apache License, Version 2.0
 # *  (the "License"); you may not use this file except in compliance with
@@ -69,7 +69,7 @@ while (my ($domain_id,$name,$registrant,$crdate,$exdate,$update,$clid,$crid,$upi
 		$sth_tld->finish;
 		# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
-		($price) = $dbh->selectrow_array("SELECT `$date_add` FROM `domain_price` WHERE `tldid` = '$tld_id' AND `command` = 'transfer' LIMIT 1");
+		($price) = $dbh->selectrow_array("SELECT `m$date_add` FROM `domain_price` WHERE `tldid` = '$tld_id' AND `command` = 'transfer' LIMIT 1");
 
 		if (($registrar_balance + $creditLimit) < $price) {
 			# This response code MUST be returned when a server attempts to execute a billable operation and the command cannot be completed due to a client-billing failure.
