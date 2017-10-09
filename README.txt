@@ -20,7 +20,7 @@ The EPP Server developed by XPanel Ltd. is licensed under the Apache License, v.
 Requirements
 ------------
 
-* PHP 7.1.9 or later
+* PHP 7.1.10 or later
 * MariaDB 10.1.26 or later
 * Fedora 26 or later
 
