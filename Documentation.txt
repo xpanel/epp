@@ -12,7 +12,7 @@ Requirements
 
 	* Linux Fedora 26 or newer;
 	* Perl v5.24.2 or newer;
-	* PHP 7.1.9 or newer;
+	* PHP 7.1.10 or newer;
 	* MariaDB 10.1.26 or newer;
 	* mod_epp 1.10 http://sourceforge.net/projects/aepps/
 	* mod_whois http://sourceforge.net/projects/modwhois/
